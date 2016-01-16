@@ -1,0 +1,23 @@
+{
+  "name": "phantom",
+  "version": "0.0.1",
+  "description": "PhantomJS wrapper for WaveDrom",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wavedrom/phantom.git"
+  },
+  "keywords": [
+    "PhantomJS",
+    "WaveDrom"
+  ],
+  "author": "Aliaksei Chapyzhenka",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/wavedrom/phantom/issues"
+  },
+  "homepage": "https://github.com/wavedrom/phantom#readme"
+}
