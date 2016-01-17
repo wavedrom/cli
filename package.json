@@ -4,7 +4,7 @@
   "description": "PhantomJS wrapper for WaveDrom",
   "main": "lib/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "eslint src/*.js && browserify --exclude fs --exclude webpage src/cli.js > wavephantom.js"
   },
   "repository": {
     "type": "git",
@@ -19,5 +19,12 @@
   "bugs": {
     "url": "https://github.com/wavedrom/phantom/issues"
   },
-  "homepage": "https://github.com/wavedrom/phantom#readme"
+  "homepage": "https://github.com/wavedrom/phantom#readme",
+  "devDependencies": {
+    "browserify": "^13.0.0",
+    "eslint": "^1.10.3",
+    "minimist": "^1.2.0",
+    "phantomjs": "^1.9.19",
+    "wavedrom": "^1.2.0"
+  }
 }
