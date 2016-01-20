@@ -1,6 +1,6 @@
-# phantom
+# wavedrom-cli
 
-PhantomJS CLI for WaveDrom
+WaveDrom command-line interface using PhantomJS
 
 ## Install
 
@@ -29,3 +29,7 @@ phantomjs ./node_modules/.bin/wavedrom -i test/src/step4.js -p step4.png -s step
 Requires [PhantomJS](http://phantomjs.org/) v2 to run.
 
 [PhantomJS build instructions](http://phantomjs.org/build.html)
+
+## License
+
+MIT [LICENSE](https://github.com/wavedrom/cli/blob/master/LICENSE).
