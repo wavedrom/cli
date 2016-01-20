@@ -1,14 +1,19 @@
 {
-  "name": "phantom",
-  "version": "0.0.1",
-  "description": "PhantomJS wrapper for WaveDrom",
+  "name": "wavedrom-cli",
+  "version": "0.1.0",
+  "description": "WaveDrom command-line interface (CLI) on PhantomJS",
   "main": "lib/index.js",
+  "bin": {
+    "wavedrom": "./bin/wavedrom-cli.js"
+  },
   "scripts": {
-    "test": "eslint src/*.js && browserify --exclude fs --exclude webpage src/cli.js > wavephantom.js"
+    "build-wavedrom-cli": "./build-wavedrom-cli.sh",
+    "build-phantom2": "./build-phantom2.sh",
+    "test": "./build-wavedrom-cli.sh"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/wavedrom/phantom.git"
+    "url": "git+https://github.com/wavedrom/cli.git"
   },
   "keywords": [
     "PhantomJS",
@@ -17,14 +22,12 @@
   "author": "Aliaksei Chapyzhenka",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/wavedrom/phantom/issues"
+    "url": "https://github.com/wavedrom/cli/issues"
   },
-  "homepage": "https://github.com/wavedrom/phantom#readme",
+  "homepage": "https://github.com/wavedrom/cli#readme",
   "devDependencies": {
     "browserify": "^13.0.0",
-    "eslint": "^1.10.3",
     "minimist": "^1.2.0",
-    "phantomjs": "^1.9.19",
     "wavedrom": "^1.2.0"
   }
 }
