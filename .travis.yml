@@ -18,4 +18,4 @@ install:
 script:
   - npm test
   - phantomjs bin/wavedrom-cli.js -i test/src/step4.js -p step4.png -s step4.svg
-  - echo step4.svg
+  - cat step4.svg
