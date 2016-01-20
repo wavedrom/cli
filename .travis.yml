@@ -15,5 +15,7 @@ install:
   - rm -rf ~/.nvm && git clone https://github.com/creationix/nvm.git ~/.nvm && (cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`) && source ~/.nvm/nvm.sh && nvm install $TRAVIS_NODE_VERSION
   - npm --version
   - npm install
-script: npm test
-
+script:
+  - npm test
+  - phantomjs bin/wavedrom-cli.js -i test/src/step4.js -p step4.png -s step4.svg
+  - echo step4.svg
