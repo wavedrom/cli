@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/wavedrom/cli.svg?branch=master)](https://travis-ci.org/wavedrom/cli)
 # wavedrom-cli
 
 WaveDrom command-line interface using PhantomJS
