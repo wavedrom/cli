@@ -14,5 +14,5 @@ install:
   - npm install
 script:
   - npm test
-  - phantomjs bin/wavedrom-cli.js -i test/src/step4.js -p step4.png -s step4.svg
+  - phantomjs/bin/phantomjs bin/wavedrom-cli.js -i test/src/step4.js -p step4.png -s step4.svg
   - wc -c step4.svg
