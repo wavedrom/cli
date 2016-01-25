@@ -1,4 +1,6 @@
 [![Build Status](https://travis-ci.org/wavedrom/cli.svg?branch=master)](https://travis-ci.org/wavedrom/cli)
+[![Build status](https://ci.appveyor.com/api/projects/status/anen4s0shxsq5wj4?svg=true)](https://ci.appveyor.com/project/drom/cli)
+
 # wavedrom-cli
 
 WaveDrom command-line interface using PhantomJS
