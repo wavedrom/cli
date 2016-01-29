@@ -24,7 +24,7 @@ npm i wavedrom-cli --save-dev
 ### Example
 
 ```sh
-phantomjs ./node_modules/.bin/wavedrom -i test/src/step4.js -p step4.png -s step4.svg
+phantomjs ./node_modules/wavedrom-cli/bin/wavedrom-cli.js -i test/src/step4.js -p step4.png -s step4.svg
 ```
 
 ## Dependencies
