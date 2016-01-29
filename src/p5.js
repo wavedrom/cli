@@ -27,18 +27,7 @@ div.id = 'a0';
 document.body.appendChild(div);
 
 // added waveform
-module.exports.renderWaveForm(
-  0,
-  { signal:
-    [
-        { name: "clk",     wave: "p....." },
-        { name: "Data",    wave: "x345x.",  data: ["head", "body", "tail"] },
-        { name: "Request", wave: "01..0." }
-    ]
-  },
-  'a',
-  lane
-);
+module.exports.renderWaveForm(0, source, 'a', lane);
 
 var svgcontent_0 = document.getElementById('svgcontent_0');
 var ser = new XMLSerializer();
@@ -58,12 +47,32 @@ return '{ "width": ' + svgcontent_0.getAttribute('width')
 
 var argv = argumist()(system.args);
 
-var sourceFileName,
+var sourceContent,
+    sourceFileName,
     sourceFileContent;
 
 if (typeof argv.i === 'string') {
     sourceFileName = argv.i;
-    sourceFileContent = fs.read(sourceFileName);
+    try {
+        sourceFileContent = fs.read(sourceFileName);
+    } catch (err) {
+        console.log(err);
+        phantom.exit();
+    }
+} else {
+    console.log('use -i <file> option to provide input file name');
+}
+
+try {
+    eval('sourceContent = ' + sourceFileContent);
+} catch (err) {
+    console.log(err);
+    phantom.exit();
+}
+
+if (sourceContent === undefined) {
+    console.log('source file is not WaveDrom compatible');
+    phantom.exit();
 }
 
 page.content = '<!DOCTYPE html><meta charset="utf-8"><body></body></html>';
@@ -75,15 +84,15 @@ page.includeJs('http://wavedrom.com/skins/default.js', function () {
         pngFileContent,
         report;
 
-    report = page.evaluate(pagegen);
+    report = page.evaluate(pagegen, sourceContent);
     report = JSON.parse(report);
     page.viewportSize = { width: report.width, height: report.height };
 
 
     if (typeof argv.s === 'string') {
         svgFileName = argv.s;
-        svgFileContent = sourceFileContent;
-        fs.write(svgFileName, report.svg, 'w');
+        svgFileContent = report.svg;
+        fs.write(svgFileName, svgFileContent, 'w');
     }
 
     if (typeof argv.p === 'string') {

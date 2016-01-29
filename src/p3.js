@@ -4,7 +4,7 @@ return module.exports;
 
 }
 
-function pagegen () {
+function pagegen (source) {
 
 var exports = {}, module = { exports: exports };
 
