@@ -11,10 +11,10 @@ test_script:
   - node --version
   - npm --version
   - appveyor DownloadFile https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-windows.zip
-  - 7z -y e phantomjs-2.1.1-windows.zip
+  - 7z -y x phantomjs-2.1.1-windows.zip
   - dir
   - mklink /D phantomjs phantomjs-2.1.1-windows
   - dir
-  - phantomjs --version
+  - phantomjs/bin/phantomjs --version
 
 build: off
