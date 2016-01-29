@@ -16,6 +16,6 @@ test_script:
   - mklink /D phantomjs phantomjs-2.1.1-windows
   - dir
   - dir phantomjs
-  - start phantomjs/bin/phantomjs.exe --version
+  - phantomjs\bin\phantomjs --version
 
 build: off
