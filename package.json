@@ -1,6 +1,6 @@
 {
   "name": "wavedrom-cli",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "WaveDrom command-line interface (CLI) on PhantomJS",
   "main": "lib/index.js",
   "bin": {
