@@ -28,6 +28,6 @@
   "devDependencies": {
     "browserify": "^13.0.0",
     "minimist": "^1.2.0",
-    "wavedrom": "^1.2.0"
+    "wavedrom": "^1.2.4"
   }
 }
