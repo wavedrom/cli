@@ -1658,7 +1658,7 @@ module.exports = renderArcs;
 
 /* eslint-env browser */
 
-},{"./create-element":2,"./w3":30,"tspan":33}],24:[function(require,module,exports){
+},{"./create-element":2,"./w3":30,"tspan":32}],24:[function(require,module,exports){
 'use strict';
 
 var jsonmlParse = require('./create-element');
@@ -1952,7 +1952,7 @@ module.exports = renderGroups;
 
 /* eslint-env browser */
 
-},{"tspan":33}],27:[function(require,module,exports){
+},{"tspan":32}],27:[function(require,module,exports){
 'use strict';
 
 var tspan = require('tspan'),
@@ -2083,12 +2083,12 @@ module.exports = renderMarks;
 
 /* eslint-env browser */
 
-},{"./create-element":2,"tspan":33}],28:[function(require,module,exports){
+},{"./create-element":2,"tspan":32}],28:[function(require,module,exports){
 'use strict';
 
 var rec = require('./rec'),
     lane = require('./lane'),
-    onmlStringify = require('onml/lib/stringify'),
+    jsonmlParse = require('./create-element'),
     parseConfig = require('./parse-config'),
     parseWaveLanes = require('./parse-wave-lanes'),
     renderMarks = require('./render-marks'),
@@ -2119,7 +2119,7 @@ function renderWaveForm (index, source, output) {
         renderMarks(root, content, index, lane);
         renderArcs(root, ret.lanes, index, source, lane);
         renderGaps(root, ret.lanes, index, lane);
-        groups.innerHTML = onmlStringify(renderGroups(ret.groups, index, lane));
+        groups.insertBefore(jsonmlParse(renderGroups(ret.groups, index, lane)), null);
         lane.xg = Math.ceil((xmax - lane.tgo) / lane.xs) * lane.xs;
         width  = (lane.xg + (lane.xs * (lane.xmax + 1)));
         height = (content.length * lane.yo +
@@ -2141,7 +2141,7 @@ module.exports = renderWaveForm;
 
 /* eslint-env browser */
 
-},{"./insert-svg-template":11,"./insert-svg-template-assign":10,"./lane":17,"./parse-config":18,"./parse-wave-lanes":20,"./rec":22,"./render-arcs":23,"./render-assign":24,"./render-gaps":25,"./render-groups":26,"./render-marks":27,"./render-wave-lane":29,"onml/lib/stringify":32}],29:[function(require,module,exports){
+},{"./create-element":2,"./insert-svg-template":11,"./insert-svg-template-assign":10,"./lane":17,"./parse-config":18,"./parse-wave-lanes":20,"./rec":22,"./render-arcs":23,"./render-assign":24,"./render-gaps":25,"./render-groups":26,"./render-marks":27,"./render-wave-lane":29}],29:[function(require,module,exports){
 'use strict';
 
 var tspan = require('tspan'),
@@ -2249,7 +2249,7 @@ module.exports = renderWaveLane;
 
 /* eslint-env browser */
 
-},{"./create-element":2,"./find-lane-markers":5,"./w3":30,"tspan":33}],30:[function(require,module,exports){
+},{"./create-element":2,"./find-lane-markers":5,"./w3":30,"tspan":32}],30:[function(require,module,exports){
 'use strict';
 
 module.exports = {
@@ -2266,103 +2266,6 @@ module.exports = window.WaveSkin;
 /* eslint-env browser */
 
 },{}],32:[function(require,module,exports){
-'use strict';
-
-function isObject (o) {
-    return o && Object.prototype.toString.call(o) === '[object Object]';
-}
-
-function indent (txt) {
-    var arr, res = [];
-
-    if (typeof txt !== 'string') {
-        return txt;
-    }
-
-    arr = txt.split('\n');
-
-    if (arr.length === 1) {
-        return '  ' + txt;
-    }
-
-    arr.forEach(function (e) {
-        if (e.trim() === '') {
-            res.push(e);
-            return;
-        }
-        res.push('  ' + e);
-    });
-
-    return res.join('\n');
-}
-
-function clean (txt) {
-    var arr = txt.split('\n');
-    var res = [];
-    arr.forEach(function (e) {
-        if (e.trim() === '') {
-            return;
-        }
-        res.push(e);
-    });
-    return res.join('\n');
-}
-
-function stringify (a) {
-    var res, body, isEmpty, isFlat;
-
-    body = '';
-    isFlat = true;
-    isEmpty = a.some(function (e, i, arr) {
-        if (i === 0) {
-            res = '<' + e;
-            if (arr.length === 1) {
-                return true;
-            }
-            return;
-        }
-
-        if (i === 1) {
-            if (isObject(e)) {
-                Object.keys(e).forEach(function (key) {
-                    res += ' ' + key + '="' + e[key] + '"';
-                });
-                if (arr.length === 2) {
-                    return true;
-                }
-                res += '>';
-                return;
-            } else {
-                res += '>';
-            }
-        }
-
-        switch (typeof e) {
-        case 'string':
-        case 'number':
-        case 'boolean':
-            body += e + '\n';
-            return;
-        }
-
-        isFlat = false;
-        body += stringify(e);
-    });
-
-    if (isEmpty) {
-        return res + '/>\n'; // short form
-    } else {
-        if (isFlat) {
-            return res + clean(body) + '</' + a[0] + '>\n';
-        } else {
-            return res + '\n' + indent(body) + '</' + a[0] + '>\n';
-        }
-    }
-}
-
-module.exports = stringify;
-
-},{}],33:[function(require,module,exports){
 'use strict';
 
 var token = /<o>|<ins>|<s>|<sub>|<sup>|<b>|<i>|<tt>|<\/o>|<\/ins>|<\/s>|<\/sub>|<\/sup>|<\/b>|<\/i>|<\/tt>/;
@@ -2471,14 +2374,14 @@ function parse (str) {
 
 exports.parse = parse;
 
-},{}],34:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 /* wavedrom begin */
 
 module.exports = require('wavedrom');
 
 /* wavedrom end */
 
-},{"wavedrom":9}]},{},[34])(34)
+},{"wavedrom":9}]},{},[33])(33)
 });/* foot begin */
 
 // some parameters
