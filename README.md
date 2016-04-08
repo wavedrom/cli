@@ -17,7 +17,8 @@ npm i wavedrom-cli --save-dev
 
 ```
 -i <input wavedrom source filename>
--p <output PNG image file name>
+-p file.png <output PNG image file name>
+-p file.pdf <output PDF file name>
 -s <output SVG image file name>
 ```
 
