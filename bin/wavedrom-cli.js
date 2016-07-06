@@ -2441,22 +2441,28 @@ if (typeof argv.i === 'string') {
         sourceFileContent = fs.read(sourceFileName);
     } catch (err) {
         console.log(err);
-        phantom.exit();
+        phantom.exit(1);
     }
 } else {
     console.log('use -i <file> option to provide input file name');
+    phantom.exit(1);
+}
+
+if (!argv.s && !argv.p) {
+    console.log('no output file specified');
+    phantom.exit(1);
 }
 
 try {
     eval('sourceContent = ' + sourceFileContent);
 } catch (err) {
     console.log(err);
-    phantom.exit();
+    phantom.exit(1);
 }
 
 if (sourceContent === undefined) {
     console.log('source file is not WaveDrom compatible');
-    phantom.exit();
+    phantom.exit(1);
 }
 
 page.content = '<!DOCTYPE html><meta charset="utf-8"><body></body></html>';
@@ -2468,23 +2474,27 @@ page.includeJs('http://wavedrom.com/skins/default.js', function () {
         pngFileContent,
         report;
 
-    report = page.evaluate(pagegen, sourceContent);
-    report = JSON.parse(report);
-    page.viewportSize = { width: report.width, height: report.height };
+    try {
+        report = page.evaluate(pagegen, sourceContent);
+        report = JSON.parse(report);
+        page.viewportSize = { width: report.width, height: report.height };
 
+        if (typeof argv.s === 'string') {
+            svgFileName = argv.s;
+            svgFileContent = report.svg;
+            fs.write(svgFileName, svgFileContent, 'w');
+        }
 
-    if (typeof argv.s === 'string') {
-        svgFileName = argv.s;
-        svgFileContent = report.svg;
-        fs.write(svgFileName, svgFileContent, 'w');
+        if (typeof argv.p === 'string') {
+            pngFileName = argv.p;
+            page.render(pngFileName);
+        }
+
+        phantom.exit(0);
+    } catch (err) {
+        console.log(err);
+        phantom.exit(1);
     }
-
-    if (typeof argv.p === 'string') {
-        pngFileName = argv.p;
-        page.render(pngFileName);
-    }
-
-    phantom.exit();
 })
 
 /* foot end */
