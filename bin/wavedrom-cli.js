@@ -270,6 +270,115 @@ var exports = {}, module = { exports: exports };
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.WaveDrom = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
 
+var token = /<o>|<ins>|<s>|<sub>|<sup>|<b>|<i>|<tt>|<\/o>|<\/ins>|<\/s>|<\/sub>|<\/sup>|<\/b>|<\/i>|<\/tt>/;
+
+function update (s, cmd) {
+    if (cmd.add) {
+        cmd.add.split(';').forEach(function (e) {
+            var arr = e.split(' ');
+            s[arr[0]][arr[1]] = true;
+        });
+    }
+    if (cmd.del) {
+        cmd.del.split(';').forEach(function (e) {
+            var arr = e.split(' ');
+            delete s[arr[0]][arr[1]];
+        });
+    }
+}
+
+var trans = {
+    '<o>'    : { add: 'text-decoration overline' },
+    '</o>'   : { del: 'text-decoration overline' },
+
+    '<ins>'  : { add: 'text-decoration underline' },
+    '</ins>' : { del: 'text-decoration underline' },
+
+    '<s>'    : { add: 'text-decoration line-through' },
+    '</s>'   : { del: 'text-decoration line-through' },
+
+    '<b>'    : { add: 'font-weight bold' },
+    '</b>'   : { del: 'font-weight bold' },
+
+    '<i>'    : { add: 'font-style italic' },
+    '</i>'   : { del: 'font-style italic' },
+
+    '<sub>'  : { add: 'baseline-shift sub;font-size .7em' },
+    '</sub>' : { del: 'baseline-shift sub;font-size .7em' },
+
+    '<sup>'  : { add: 'baseline-shift super;font-size .7em' },
+    '</sup>' : { del: 'baseline-shift super;font-size .7em' },
+
+    '<tt>'   : { add: 'font-family monospace' },
+    '</tt>'  : { del: 'font-family monospace' }
+};
+
+function dump (s) {
+    return Object.keys(s).reduce(function (pre, cur) {
+        var keys = Object.keys(s[cur]);
+        if (keys.length > 0) {
+            pre[cur] = keys.join(' ');
+        }
+        return pre;
+    }, {});
+}
+
+function parse (str) {
+    var state, res, i, m, a;
+
+    if (str === undefined) {
+        return [];
+    }
+
+    if (typeof str === 'number') {
+        return [str + ''];
+    }
+
+    if (typeof str !== 'string') {
+        return [str];
+    }
+
+    res = [];
+
+    state = {
+        'text-decoration': {},
+        'font-weight': {},
+        'font-style': {},
+        'baseline-shift': {},
+        'font-size': {},
+        'font-family': {}
+    };
+
+    while (true) {
+        i = str.search(token);
+
+        if (i === -1) {
+            res.push(['tspan', dump(state), str]);
+            return res;
+        }
+
+        if (i > 0) {
+            a = str.slice(0, i);
+            res.push(['tspan', dump(state), a]);
+        }
+
+        m = str.match(token)[0];
+
+        update(state, trans[m]);
+
+        str = str.slice(i + m.length);
+
+        if (str.length === 0) {
+            return res;
+        }
+    }
+}
+
+exports.parse = parse;
+
+},{}],2:[function(require,module,exports){
+'use strict';
+
 function appendSaveAsDialog (index, output) {
     var div;
     var menu;
@@ -394,7 +503,7 @@ module.exports = appendSaveAsDialog;
 
 /* eslint-env browser */
 
-},{}],2:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
 'use strict';
 
 var // obj2ml = require('./obj2ml'),
@@ -413,7 +522,7 @@ module.exports = jsonmlParse;
 
 /* eslint-env browser */
 
-},{"./jsonml-parse":15}],3:[function(require,module,exports){
+},{"./jsonml-parse":16}],4:[function(require,module,exports){
 'use strict';
 
 var eva = require('./eva'),
@@ -448,7 +557,7 @@ function editorRefresh () {
 
 module.exports = editorRefresh;
 
-},{"./eva":4,"./render-wave-form":28}],4:[function(require,module,exports){
+},{"./eva":5,"./render-wave-form":29}],5:[function(require,module,exports){
 'use strict';
 
 function eva (id) {
@@ -489,7 +598,7 @@ module.exports = eva;
 
 /* eslint-env browser */
 
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 'use strict';
 
 function findLaneMarkers (lanetext) {
@@ -524,7 +633,7 @@ function findLaneMarkers (lanetext) {
 
 module.exports = findLaneMarkers;
 
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 'use strict';
 
 function genBrick (texts, extra, times) {
@@ -555,7 +664,7 @@ function genBrick (texts, extra, times) {
 
 module.exports = genBrick;
 
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 'use strict';
 
 var genBrick = require('./gen-brick');
@@ -590,7 +699,7 @@ function genFirstWaveBrick (text, extra, times) {
 
 module.exports = genFirstWaveBrick;
 
-},{"./gen-brick":6}],8:[function(require,module,exports){
+},{"./gen-brick":7}],9:[function(require,module,exports){
 'use strict';
 
 var genBrick = require('./gen-brick');
@@ -707,7 +816,7 @@ function genWaveBrick (text, extra, times) {
 
 module.exports = genWaveBrick;
 
-},{"./gen-brick":6}],9:[function(require,module,exports){
+},{"./gen-brick":7}],10:[function(require,module,exports){
 'use strict';
 
 var processAll = require('./process-all'),
@@ -722,7 +831,7 @@ module.exports = {
     editorRefresh: editorRefresh
 };
 
-},{"./editor-refresh":3,"./eva":4,"./process-all":21,"./render-wave-form":28}],10:[function(require,module,exports){
+},{"./editor-refresh":4,"./eva":5,"./process-all":22,"./render-wave-form":29}],11:[function(require,module,exports){
 'use strict';
 
 var jsonmlParse = require('./create-element'),
@@ -746,7 +855,7 @@ module.exports = insertSVGTemplateAssign;
 
 /* eslint-env browser */
 
-},{"./create-element":2,"./w3":30}],11:[function(require,module,exports){
+},{"./create-element":3,"./w3":31}],12:[function(require,module,exports){
 'use strict';
 
 var jsonmlParse = require('./create-element'),
@@ -806,7 +915,7 @@ module.exports = insertSVGTemplate;
 
 /* eslint-env browser */
 
-},{"./create-element":2,"./w3":30,"./wave-skin":31}],12:[function(require,module,exports){
+},{"./create-element":3,"./w3":31,"./wave-skin":32}],13:[function(require,module,exports){
 'use strict';
 
 //attribute name mapping
@@ -927,7 +1036,7 @@ module.exports = addAttributes;
 /* eslint-env browser */
 /* eslint no-new-func:0 */
 
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 'use strict';
 
 /*void*/ function appendChild(/*DOM*/ elem, /*DOM*/ child) {
@@ -997,7 +1106,7 @@ module.exports = appendChild;
 
 /* eslint-env browser */
 
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 'use strict';
 
 var trimWhitespace = require('./jsonml-trim-whitespace');
@@ -1029,7 +1138,7 @@ module.exports = hydrate;
 
 /* eslint-env browser */
 
-},{"./jsonml-trim-whitespace":16}],15:[function(require,module,exports){
+},{"./jsonml-trim-whitespace":17}],16:[function(require,module,exports){
 'use strict';
 
 var hydrate = require('./jsonml-hydrate'),
@@ -1152,7 +1261,7 @@ module.exports = parse;
 /* eslint-env browser */
 /* eslint yoda:1 */
 
-},{"./jsonml-add-attributes":12,"./jsonml-append-child":13,"./jsonml-hydrate":14,"./jsonml-trim-whitespace":16,"./w3":30}],16:[function(require,module,exports){
+},{"./jsonml-add-attributes":13,"./jsonml-append-child":14,"./jsonml-hydrate":15,"./jsonml-trim-whitespace":17,"./w3":31}],17:[function(require,module,exports){
 'use strict';
 
 /*bool*/ function isWhitespace(/*DOM*/ node) {
@@ -1178,7 +1287,7 @@ module.exports = trimWhitespace;
 
 /* eslint-env browser */
 
-},{}],17:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 'use strict';
 
 var lane = {
@@ -1203,7 +1312,7 @@ var lane = {
 
 module.exports = lane;
 
-},{}],18:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 'use strict';
 
 function parseConfig (source, lane) {
@@ -1231,12 +1340,34 @@ function parseConfig (source, lane) {
     lane.yh1 = 0;
     lane.head = source.head;
 
+    lane.xmin_cfg = 0;
+    lane.xmax_cfg = 1e12; // essentially infinity
+    if (source && source.config && source.config.hbounds && source.config.hbounds.length==2) {
+        source.config.hbounds[0] = Math.floor(source.config.hbounds[0]);
+        source.config.hbounds[1] = Math.ceil(source.config.hbounds[1]);
+        if (  source.config.hbounds[0] < source.config.hbounds[1] ) {
+            // convert hbounds ticks min, max to bricks min, max
+            // TODO: do we want to base this on ticks or tocks in
+            //  head or foot?  All 4 can be different... or just 0 reference?
+            lane.xmin_cfg = 2 * Math.floor(source.config.hbounds[0]);
+            lane.xmax_cfg = 2 * Math.floor(source.config.hbounds[1]);
+        }
+    }
+
     if (source && source.head) {
         if (
             source.head.tick || source.head.tick === 0 ||
             source.head.tock || source.head.tock === 0
         ) {
             lane.yh0 = 20;
+        }
+        // if tick defined, modify start tick by lane.xmin_cfg
+        if ( source.head.tick || source.head.tick === 0 ) {
+            source.head.tick = source.head.tick + lane.xmin_cfg/2;
+        }
+        // if tock defined, modify start tick by lane.xmin_cfg
+        if ( source.head.tock || source.head.tock === 0 ) {
+            source.head.tock = source.head.tock + lane.xmin_cfg/2;
         }
 
         if (source.head.text) {
@@ -1255,6 +1386,14 @@ function parseConfig (source, lane) {
         ) {
             lane.yf0 = 20;
         }
+        // if tick defined, modify start tick by lane.xmin_cfg
+        if ( source.foot.tick || source.foot.tick === 0 ) {
+            source.foot.tick = source.foot.tick + lane.xmin_cfg/2;
+        }
+        // if tock defined, modify start tick by lane.xmin_cfg
+        if ( source.foot.tock || source.foot.tock === 0 ) {
+            source.foot.tock = source.foot.tock + lane.xmin_cfg/2;
+        }
 
         if (source.foot.text) {
             lane.yf1 = 46;
@@ -1265,17 +1404,23 @@ function parseConfig (source, lane) {
 
 module.exports = parseConfig;
 
-},{}],19:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 'use strict';
 
 var genFirstWaveBrick = require('./gen-first-wave-brick'),
-    genWaveBrick = require('./gen-wave-brick');
+    genWaveBrick = require('./gen-wave-brick'),
+    findLaneMarkers = require('./find-lane-markers');
 
+// text is the wave member of the signal object
+// extra = hscale-1 ( padding )
+// lane is an object containing all properties for this waveform
 function parseWaveLane (text, extra, lane) {
-    var Repeats, Top, Next, Stack = [], R = [], i;
+    var Repeats, Top, Next, Stack = [], R = [], i, subCycle;
+    var unseen_bricks = [], num_unseen_markers;
 
     Stack = text.split('');
     Next  = Stack.shift();
+    subCycle = false;
 
     Repeats = 1;
     while (Stack[0] === '.' || Stack[0] === '|') { // repeaters parser
@@ -1287,58 +1432,104 @@ function parseWaveLane (text, extra, lane) {
     while (Stack.length) {
         Top = Next;
         Next = Stack.shift();
+        if (Next === '<') { // sub-cycles on
+            subCycle = true;
+            Next = Stack.shift();
+        }
+        if (Next === '>') { // sub-cycles off
+            subCycle = false;
+            Next = Stack.shift();
+        }
         Repeats = 1;
         while (Stack[0] === '.' || Stack[0] === '|') { // repeaters parser
             Stack.shift();
             Repeats += 1;
         }
-        R = R.concat(genWaveBrick((Top + Next), extra, Repeats));
+        if (subCycle) {
+            R = R.concat(genWaveBrick((Top + Next), 0, Repeats - 1));
+        } else {
+            R = R.concat(genWaveBrick((Top + Next), extra, Repeats));
+        }
     }
+    // shift out unseen bricks due to phase shift, and save them in
+    //  unseen_bricks array
     for (i = 0; i < lane.phase; i += 1) {
-        R.shift();
+        unseen_bricks.push(R.shift());
     }
-    return R;
+    if (unseen_bricks.length > 0) {
+        num_unseen_markers = findLaneMarkers( unseen_bricks ).length;
+        // if end of unseen_bricks and start of R both have a marker,
+        //  then one less unseen marker
+        if ( findLaneMarkers( [unseen_bricks[unseen_bricks.length-1]] ).length == 1 &&
+             findLaneMarkers( [R[0]] ).length == 1 ) {
+            num_unseen_markers -= 1;
+        }
+    } else {
+        num_unseen_markers = 0;
+    }
+
+    // R is array of half brick types, each is item is string
+    // num_unseen_markers is how many markers are now unseen due to phase
+    return [R, num_unseen_markers];
 }
 
 module.exports = parseWaveLane;
 
-},{"./gen-first-wave-brick":7,"./gen-wave-brick":8}],20:[function(require,module,exports){
+},{"./find-lane-markers":6,"./gen-first-wave-brick":8,"./gen-wave-brick":9}],21:[function(require,module,exports){
 'use strict';
 
 var parseWaveLane = require('./parse-wave-lane');
 
-function data_extract (e) {
-    var tmp;
+function data_extract (e, num_unseen_markers) {
+    var ret_data;
 
-    tmp = e.data;
-    if (tmp === undefined) { return null; }
-    if (typeof (tmp) === 'string') { return tmp.split(' '); }
-    return tmp;
+    ret_data = e.data;
+    if (ret_data === undefined) { return null; }
+    if (typeof (ret_data) === 'string') { ret_data= ret_data.split(' '); }
+    // slice data array after unseen markers
+    ret_data = ret_data.slice( num_unseen_markers );
+    return ret_data;
 }
 
 function parseWaveLanes (sig, lane) {
     var x,
         sigx,
         content = [],
+        content_wave,
+        parsed_wave_lane,
+        num_unseen_markers,
         tmp0 = [];
 
     for (x in sig) {
+        // sigx is each signal in the array of signals being iterated over
         sigx = sig[x];
         lane.period = sigx.period ? sigx.period    : 1;
-        lane.phase  = sigx.phase  ? sigx.phase * 2 : 0;
+        // xmin_cfg is min. brick of hbounds, add to lane.phase of all signals
+        lane.phase  = (sigx.phase  ? sigx.phase * 2 : 0) + lane.xmin_cfg;
         content.push([]);
         tmp0[0] = sigx.name  || ' ';
-        tmp0[1] = sigx.phase || 0;
+        // xmin_cfg is min. brick of hbounds, add 1/2 to sigx.phase of all sigs
+        tmp0[1] = (sigx.phase || 0) + lane.xmin_cfg/2;
+        if ( sigx.wave ) {
+            parsed_wave_lane = parseWaveLane(sigx.wave, lane.period * lane.hscale - 1, lane);
+            content_wave = parsed_wave_lane[0] ;
+            num_unseen_markers = parsed_wave_lane[1];
+        } else {
+            content_wave = null;
+        }
         content[content.length - 1][0] = tmp0.slice(0);
-        content[content.length - 1][1] = sigx.wave ? parseWaveLane(sigx.wave, lane.period * lane.hscale - 1, lane) : null;
-        content[content.length - 1][2] = data_extract(sigx);
+        content[content.length - 1][1] = content_wave;
+        content[content.length - 1][2] = data_extract(sigx,num_unseen_markers);
     }
+    // content is an array of arrays, representing the list of signals using
+    //  the same order:
+    // content[0] = [ [name,phase], parsedwavelaneobj, dataextracted ]
     return content;
 }
 
 module.exports = parseWaveLanes;
 
-},{"./parse-wave-lane":19}],21:[function(require,module,exports){
+},{"./parse-wave-lane":20}],22:[function(require,module,exports){
 'use strict';
 
 var eva = require('./eva'),
@@ -1380,7 +1571,7 @@ module.exports = processAll;
 
 /* eslint-env browser */
 
-},{"./append-save-as-dialog":1,"./eva":4,"./render-wave-form":28}],22:[function(require,module,exports){
+},{"./append-save-as-dialog":2,"./eva":5,"./render-wave-form":29}],23:[function(require,module,exports){
 'use strict';
 
 function rec (tmp, state) {
@@ -1411,7 +1602,7 @@ function rec (tmp, state) {
 
 module.exports = rec;
 
-},{}],23:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 'use strict';
 
 var tspan = require('tspan'),
@@ -1453,7 +1644,7 @@ var tspan = require('tspan'),
      if (source) {
          for (i in source) {
              lane.period = source[i].period ? source[i].period    : 1;
-             lane.phase  = source[i].phase  ? source[i].phase * 2 : 0;
+             lane.phase  = (source[i].phase  ? source[i].phase * 2 : 0) + lane.xmin_cfg;
              text = source[i].node;
              if (text) {
                  Stack = text.split('');
@@ -1658,7 +1849,7 @@ module.exports = renderArcs;
 
 /* eslint-env browser */
 
-},{"./create-element":2,"./w3":30,"tspan":32}],24:[function(require,module,exports){
+},{"./create-element":3,"./w3":31,"tspan":1}],25:[function(require,module,exports){
 'use strict';
 
 var jsonmlParse = require('./create-element');
@@ -1866,7 +2057,7 @@ module.exports = renderAssign;
 
 /* eslint-env browser */
 
-},{"./create-element":2}],25:[function(require,module,exports){
+},{"./create-element":3}],26:[function(require,module,exports){
 'use strict';
 
 var w3 = require('./w3');
@@ -1882,7 +2073,7 @@ function renderGaps (root, source, index, lane) {
 
         for (i in source) {
             lane.period = source[i].period ? source[i].period    : 1;
-            lane.phase  = source[i].phase  ? source[i].phase * 2 : 0;
+            lane.phase  = (source[i].phase  ? source[i].phase * 2 : 0) + lane.xmin_cfg;
             g = document.createElementNS(w3.svg, 'g');
             g.id = 'wavegap_' + i + '_' + index;
             g.setAttribute('transform', 'translate(0,' + (lane.y0 + i * lane.yo) + ')');
@@ -1911,7 +2102,7 @@ module.exports = renderGaps;
 
 /* eslint-env browser */
 
-},{"./w3":30}],26:[function(require,module,exports){
+},{"./w3":31}],27:[function(require,module,exports){
 'use strict';
 
 var tspan = require('tspan');
@@ -1952,7 +2143,7 @@ module.exports = renderGroups;
 
 /* eslint-env browser */
 
-},{"tspan":32}],27:[function(require,module,exports){
+},{"tspan":1}],28:[function(require,module,exports){
 'use strict';
 
 var tspan = require('tspan'),
@@ -2083,7 +2274,7 @@ module.exports = renderMarks;
 
 /* eslint-env browser */
 
-},{"./create-element":2,"tspan":32}],28:[function(require,module,exports){
+},{"./create-element":3,"tspan":1}],29:[function(require,module,exports){
 'use strict';
 
 var rec = require('./rec'),
@@ -2141,7 +2332,7 @@ module.exports = renderWaveForm;
 
 /* eslint-env browser */
 
-},{"./create-element":2,"./insert-svg-template":11,"./insert-svg-template-assign":10,"./lane":17,"./parse-config":18,"./parse-wave-lanes":20,"./rec":22,"./render-arcs":23,"./render-assign":24,"./render-gaps":25,"./render-groups":26,"./render-marks":27,"./render-wave-lane":29}],29:[function(require,module,exports){
+},{"./create-element":3,"./insert-svg-template":12,"./insert-svg-template-assign":11,"./lane":18,"./parse-config":19,"./parse-wave-lanes":21,"./rec":23,"./render-arcs":24,"./render-assign":25,"./render-gaps":26,"./render-groups":27,"./render-marks":28,"./render-wave-lane":30}],30:[function(require,module,exports){
 'use strict';
 
 var tspan = require('tspan'),
@@ -2240,7 +2431,8 @@ function renderWaveLane (root, content, index, lane) {
             }
         }
     }
-    lane.xmax = xmax;
+    // xmax if no xmax_cfg,xmin_cfg, else set to config
+    lane.xmax = Math.min(xmax, lane.xmax_cfg - lane.xmin_cfg);
     lane.xg = xgmax + 20;
     return glengths;
 }
@@ -2249,7 +2441,7 @@ module.exports = renderWaveLane;
 
 /* eslint-env browser */
 
-},{"./create-element":2,"./find-lane-markers":5,"./w3":30,"tspan":32}],30:[function(require,module,exports){
+},{"./create-element":3,"./find-lane-markers":6,"./w3":31,"tspan":1}],31:[function(require,module,exports){
 'use strict';
 
 module.exports = {
@@ -2258,121 +2450,12 @@ module.exports = {
     xmlns: 'http://www.w3.org/XML/1998/namespace'
 };
 
-},{}],31:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
 'use strict';
 
 module.exports = window.WaveSkin;
 
 /* eslint-env browser */
-
-},{}],32:[function(require,module,exports){
-'use strict';
-
-var token = /<o>|<ins>|<s>|<sub>|<sup>|<b>|<i>|<tt>|<\/o>|<\/ins>|<\/s>|<\/sub>|<\/sup>|<\/b>|<\/i>|<\/tt>/;
-
-function update (s, cmd) {
-    if (cmd.add) {
-        cmd.add.split(';').forEach(function (e) {
-            var arr = e.split(' ');
-            s[arr[0]][arr[1]] = true;
-        });
-    }
-    if (cmd.del) {
-        cmd.del.split(';').forEach(function (e) {
-            var arr = e.split(' ');
-            delete s[arr[0]][arr[1]];
-        });
-    }
-}
-
-var trans = {
-    '<o>'    : { add: 'text-decoration overline' },
-    '</o>'   : { del: 'text-decoration overline' },
-
-    '<ins>'  : { add: 'text-decoration underline' },
-    '</ins>' : { del: 'text-decoration underline' },
-
-    '<s>'    : { add: 'text-decoration line-through' },
-    '</s>'   : { del: 'text-decoration line-through' },
-
-    '<b>'    : { add: 'font-weight bold' },
-    '</b>'   : { del: 'font-weight bold' },
-
-    '<i>'    : { add: 'font-style italic' },
-    '</i>'   : { del: 'font-style italic' },
-
-    '<sub>'  : { add: 'baseline-shift sub;font-size .7em' },
-    '</sub>' : { del: 'baseline-shift sub;font-size .7em' },
-
-    '<sup>'  : { add: 'baseline-shift super;font-size .7em' },
-    '</sup>' : { del: 'baseline-shift super;font-size .7em' },
-
-    '<tt>'   : { add: 'font-family monospace' },
-    '</tt>'  : { del: 'font-family monospace' }
-};
-
-function dump (s) {
-    return Object.keys(s).reduce(function (pre, cur) {
-        var keys = Object.keys(s[cur]);
-        if (keys.length > 0) {
-            pre[cur] = keys.join(' ');
-        }
-        return pre;
-    }, {});
-}
-
-function parse (str) {
-    var state, res, i, m, a;
-
-    if (str === undefined) {
-        return [];
-    }
-
-    if (typeof str === 'number') {
-        return [str + ''];
-    }
-
-    if (typeof str !== 'string') {
-        return [str];
-    }
-
-    res = [];
-
-    state = {
-        'text-decoration': {},
-        'font-weight': {},
-        'font-style': {},
-        'baseline-shift': {},
-        'font-size': {},
-        'font-family': {}
-    };
-
-    while (true) {
-        i = str.search(token);
-
-        if (i === -1) {
-            res.push(['tspan', dump(state), str]);
-            return res;
-        }
-
-        if (i > 0) {
-            a = str.slice(0, i);
-            res.push(['tspan', dump(state), a]);
-        }
-
-        m = str.match(token)[0];
-
-        update(state, trans[m]);
-
-        str = str.slice(i + m.length);
-
-        if (str.length === 0) {
-            return res;
-        }
-    }
-}
-
-exports.parse = parse;
 
 },{}],33:[function(require,module,exports){
 /* wavedrom begin */
@@ -2381,7 +2464,7 @@ module.exports = require('wavedrom');
 
 /* wavedrom end */
 
-},{"wavedrom":9}]},{},[33])(33)
+},{"wavedrom":10}]},{},[33])(33)
 });/* foot begin */
 
 // some parameters
@@ -2441,22 +2524,28 @@ if (typeof argv.i === 'string') {
         sourceFileContent = fs.read(sourceFileName);
     } catch (err) {
         console.log(err);
-        phantom.exit();
+        phantom.exit(1);
     }
 } else {
     console.log('use -i <file> option to provide input file name');
+    phantom.exit(1);
+}
+
+if (!argv.s && !argv.p) {
+    console.log('no output file specified');
+    phantom.exit(1);
 }
 
 try {
     eval('sourceContent = ' + sourceFileContent);
 } catch (err) {
     console.log(err);
-    phantom.exit();
+    phantom.exit(1);
 }
 
 if (sourceContent === undefined) {
     console.log('source file is not WaveDrom compatible');
-    phantom.exit();
+    phantom.exit(1);
 }
 
 page.content = '<!DOCTYPE html><meta charset="utf-8"><body></body></html>';
@@ -2468,23 +2557,27 @@ page.includeJs('http://wavedrom.com/skins/default.js', function () {
         pngFileContent,
         report;
 
-    report = page.evaluate(pagegen, sourceContent);
-    report = JSON.parse(report);
-    page.viewportSize = { width: report.width, height: report.height };
+    try {
+        report = page.evaluate(pagegen, sourceContent);
+        report = JSON.parse(report);
+        page.viewportSize = { width: report.width, height: report.height };
 
+        if (typeof argv.s === 'string') {
+            svgFileName = argv.s;
+            svgFileContent = report.svg;
+            fs.write(svgFileName, svgFileContent, 'w');
+        }
 
-    if (typeof argv.s === 'string') {
-        svgFileName = argv.s;
-        svgFileContent = report.svg;
-        fs.write(svgFileName, svgFileContent, 'w');
+        if (typeof argv.p === 'string') {
+            pngFileName = argv.p;
+            page.render(pngFileName);
+        }
+
+        phantom.exit(0);
+    } catch (err) {
+        console.log(err);
+        phantom.exit(1);
     }
-
-    if (typeof argv.p === 'string') {
-        pngFileName = argv.p;
-        page.render(pngFileName);
-    }
-
-    phantom.exit();
 })
 
 /* foot end */
