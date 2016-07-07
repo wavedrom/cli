@@ -9,7 +9,8 @@
   "scripts": {
     "build-wavedrom-cli": "./build-wavedrom-cli.sh",
     "build-phantom2": "./build-phantom2.sh",
-    "test": "./build-wavedrom-cli.sh"
+    "test": "./build-wavedrom-cli.sh",
+    "build": "phantomjs/bin/phantomjs bin/wavedrom-cli.js -i test/src/step1.js -p step1.png -s step1.svg"
   },
   "repository": {
     "type": "git",
@@ -28,6 +29,7 @@
   "devDependencies": {
     "browserify": "^13.0.0",
     "minimist": "^1.2.0",
+    "phantomjs-prebuilt": "^2.1.7",
     "wavedrom": "^1.2.6"
   }
 }
