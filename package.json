@@ -29,7 +29,6 @@
   "devDependencies": {
     "browserify": "^13.0.0",
     "minimist": "^1.2.0",
-    "phantomjs-prebuilt": "^2.1.7",
-    "wavedrom": "^1.2.6"
+    "wavedrom": "^1.4.0"
   }
 }
