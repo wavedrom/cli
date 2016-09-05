@@ -27,8 +27,8 @@
   },
   "homepage": "https://github.com/wavedrom/cli#readme",
   "devDependencies": {
-    "browserify": "^13.0.0",
+    "browserify": "^13.1.0",
     "minimist": "^1.2.0",
-    "wavedrom": "^1.4.0"
+    "wavedrom": "^1.4.1"
   }
 }

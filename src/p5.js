@@ -83,42 +83,32 @@ if (sourceContent === undefined) {
 
 page.content = '<!DOCTYPE html><meta charset="utf-8"><body></body></html>';
 
-page.includeJs(
-    'https://cdnjs.cloudflare.com/ajax/libs/wavedrom/1.4.0/skins/default.js',
-    function () {
-        page.includeJs(
-            'https://cdnjs.cloudflare.com/ajax/libs/wavedrom/1.4.0/skins/narrow.js',
-            function () {
-                var svgFileName,
-                    svgFileContent,
-                    pngFileName,
-                    pngFileContent,
-                    report;
+var svgFileName,
+    svgFileContent,
+    pngFileName,
+    pngFileContent,
+    report;
 
-                try {
-                    report = page.evaluate(pagegen, sourceContent);
-                    report = JSON.parse(report);
-                    page.viewportSize = { width: report.width, height: report.height };
+try {
+    report = page.evaluate(pagegen, sourceContent);
+    report = JSON.parse(report);
+    page.viewportSize = { width: report.width, height: report.height };
 
-                    if (typeof argv.s === 'string') {
-                        svgFileName = argv.s;
-                        svgFileContent = report.svg;
-                        fs.write(svgFileName, svgFileContent, 'w');
-                    }
-
-                    if (typeof argv.p === 'string') {
-                        pngFileName = argv.p;
-                        page.render(pngFileName);
-                    }
-
-                    phantom.exit(0);
-                } catch (err) {
-                    console.log(err);
-                    phantom.exit(1);
-                }
-            }
-        )
+    if (typeof argv.s === 'string') {
+        svgFileName = argv.s;
+        svgFileContent = report.svg;
+        fs.write(svgFileName, svgFileContent, 'w');
     }
-)
+
+    if (typeof argv.p === 'string') {
+        pngFileName = argv.p;
+        page.render(pngFileName);
+    }
+
+    phantom.exit(0);
+} catch (err) {
+    console.log(err);
+    phantom.exit(1);
+}
 
 /* foot end */

@@ -8,4 +8,7 @@ function pagegen (source) {
 
 var exports = {}, module = { exports: exports };
 
+var WaveSkin = {};
+window.WaveSkin = WaveSkin;
+
 /* middle end */
