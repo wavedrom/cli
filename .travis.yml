@@ -29,4 +29,4 @@ script:
   - unset QT_QPA_PLATFORM && phantomjs/bin/phantomjs bin/wavedrom-cli.js -i test/src/step5.js -p test/res/step5.pdf
   - unset QT_QPA_PLATFORM && phantomjs/bin/phantomjs bin/wavedrom-cli.js -i test/src/step6.js -p test/res/step6.pdf
   - unset QT_QPA_PLATFORM && phantomjs/bin/phantomjs bin/wavedrom-cli.js -i test/src/step7.js -p test/res/step7.pdf
-  - wc -c step4.svg
+  - wc -c test/res/step4.svg
