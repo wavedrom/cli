@@ -97,7 +97,13 @@ try {
     if (typeof argv.s === 'string') {
         svgFileName = argv.s;
         svgFileContent = report.svg;
-        fs.write(svgFileName, svgFileContent, 'w');
+        if (argv.s === '-') {
+            // Write to stdout
+            system.stdout.write(svgFileContent);
+        } else {
+            // Write to file
+            fs.write(svgFileName, svgFileContent, 'w');
+        }
     }
 
     if (typeof argv.p === 'string') {
