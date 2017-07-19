@@ -2537,12 +2537,18 @@ var sourceContent,
     sourceFileContent;
 
 if (typeof argv.i === 'string') {
-    sourceFileName = argv.i;
-    try {
-        sourceFileContent = fs.read(sourceFileName);
-    } catch (err) {
-        console.log(err);
-        phantom.exit(1);
+    if (argv.i === '-') {
+        // Read from stdin
+        sourceFileContent = system.stdin.read();
+    } else {
+        // Read from file
+        sourceFileName = argv.i;
+        try {
+            sourceFileContent = fs.read(sourceFileName);
+        } catch (err) {
+            console.log(err);
+            phantom.exit(1);
+        }
     }
 } else {
     console.log('use -i <file> option to provide input file name');
