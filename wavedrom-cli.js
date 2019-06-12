@@ -3,7 +3,6 @@
 
 var fs = require('fs-extra');
 var json5 = require('json5');
-var svg2img = require('svg2img');
 var yargs = require('yargs');
 var onml = require('onml');
 
@@ -36,6 +35,7 @@ fs.readFile(fileName, function (err, body) {
       });
     }
     if (argv.png) {
+      var svg2img = require('svg2img');
       svg2img(svg, function(err, buf) {
         fs.outputFile(argv.png, buf);
       });
