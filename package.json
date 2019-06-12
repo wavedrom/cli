@@ -14,13 +14,13 @@
   },
   "main": "lib/index.js",
   "bin": {
-    "wavedrom-cli": "./bin/cli.js"
+    "wavedrom-cli": "./wavedrom-cli.js"
   },
   "keywords": [
     "WaveDrom"
   ],
   "scripts": {
-    "test": "for f in test/src/*.js; do ./bin/wavedrom-cli.js -i $f -s test/res/$(basename ${f} .${f##*.}).svg -p test/res/$(basename ${f} .${f##*.}).png; done"
+    "test": "for f in test/src/*.js; do ./wavedrom-cli.js -i $f -s test/res/$(basename ${f} .${f##*.}).svg -p test/res/$(basename ${f} .${f##*.}).png; done"
   },
   "dependencies": {
     "fs-extra": "^8.0.1",
