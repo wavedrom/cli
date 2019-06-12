@@ -40,4 +40,7 @@ fs.readFile(fileName, function (err, body) {
         fs.outputFile(argv.png, buf);
       });
     }
+    if (!(argv.svg || argv.png)) {
+      console.log(svg);
+    }
 });
