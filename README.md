@@ -28,4 +28,4 @@ wavedrom-cli -i test/src/step4.js -p step4.png -s step4.svg
 
 ## License
 
-MIT [LICENSE](https://github.com/wavedrom/cli/blob/master/LICENSE).
+MIT [LICENSE](./LICENSE).
