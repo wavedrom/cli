@@ -15,4 +15,4 @@ install:
   - npm install
 script:
   - npm test
-  - [[ -z $(git status -s) ]] || exit 1
+  - "[[ -z $(git status -s) ]] || exit 1"
