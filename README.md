@@ -1,3 +1,4 @@
+[![NPM version](https://img.shields.io/npm/v/wavedrom-cli.svg)](https://www.npmjs.org/package/wavedrom-cli)
 [![Build Status](https://travis-ci.org/wavedrom/cli.svg?branch=master)](https://travis-ci.org/wavedrom/cli)
 
 # wavedrom-cli
