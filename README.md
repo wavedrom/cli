@@ -6,7 +6,7 @@ WaveDrom command-line interface
 
 ## Install
 
-Require `node.js` v8+
+Require `node.js` >=8
 
 ```sh
 npm i wavedrom-cli --save-dev

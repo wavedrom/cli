@@ -19,6 +19,9 @@
   "keywords": [
     "WaveDrom"
   ],
+  "engines": {
+    "node": ">=8"
+  },
   "scripts": {
     "test": "for f in test/src/*.js; do ./wavedrom-cli.js -i $f -s test/res/$(basename ${f} .${f##*.}).svg -p test/res/$(basename ${f} .${f##*.}).png; done"
   },
