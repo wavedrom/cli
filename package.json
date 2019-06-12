@@ -1,34 +1,33 @@
 {
   "name": "wavedrom-cli",
-  "version": "0.5.1",
-  "description": "WaveDrom command-line interface (CLI) on PhantomJS",
-  "main": "lib/index.js",
-  "bin": {
-    "wavedrom": "./bin/wavedrom-cli.js"
-  },
-  "scripts": {
-    "build-wavedrom-cli": "./build-wavedrom-cli.sh",
-    "build-phantom2": "./build-phantom2.sh",
-    "test": "./build-wavedrom-cli.sh",
-    "build": "phantomjs/bin/phantomjs bin/wavedrom-cli.js -i test/src/step1.js -p step1.png -s step1.svg"
-  },
+  "version": "2.0.0",
+  "description": "WaveDrom command-line interface (CLI)",
+  "author": "Aliaksei Chapyzhenka",
+  "license": "MIT",
+  "homepage": "https://github.com/wavedrom/cli#readme",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/wavedrom/cli.git"
   },
-  "keywords": [
-    "PhantomJS",
-    "WaveDrom"
-  ],
-  "author": "Aliaksei Chapyzhenka",
-  "license": "MIT",
   "bugs": {
     "url": "https://github.com/wavedrom/cli/issues"
   },
-  "homepage": "https://github.com/wavedrom/cli#readme",
-  "devDependencies": {
-    "browserify": "^13.1.0",
-    "minimist": "^1.2.0",
-    "wavedrom": "^1.4.1"
+  "main": "lib/index.js",
+  "bin": {
+    "wavedrom-cli": "./bin/cli.js"
+  },
+  "keywords": [
+    "WaveDrom"
+  ],
+  "scripts": {
+    "test": "for f in test/src/*.js; do ./bin/wavedrom-cli.js -i $f -s test/res/$(basename ${f} .${f##*.}).svg -p test/res/$(basename ${f} .${f##*.}).png; done"
+  },
+  "dependencies": {
+    "fs-extra": "^8.0.1",
+    "json5": "^2.1.0",
+    "onml": "^1.0.0",
+    "svg2img": "^0.6.0",
+    "wavedrom": "^2.1.2",
+    "yargs": "^13.2.4"
   }
 }
