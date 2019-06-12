@@ -1,9 +1,8 @@
 [![Build Status](https://travis-ci.org/wavedrom/cli.svg?branch=master)](https://travis-ci.org/wavedrom/cli)
-[![Build status](https://ci.appveyor.com/api/projects/status/anen4s0shxsq5wj4?svg=true)](https://ci.appveyor.com/project/drom/cli)
 
 # wavedrom-cli
 
-WaveDrom command-line interface using PhantomJS
+WaveDrom command-line interface
 
 ## Install
 
@@ -18,21 +17,14 @@ npm i wavedrom-cli --save-dev
 ```
 -i <input wavedrom source filename>
 -p file.png <output PNG image file name>
--p file.pdf <output PDF file name>
 -s <output SVG image file name>
 ```
 
 ### Example
 
 ```sh
-phantomjs ./node_modules/wavedrom-cli/bin/wavedrom-cli.js -i test/src/step4.js -p step4.png -s step4.svg
+wavedrom-cli -i test/src/step4.js -p step4.png -s step4.svg
 ```
-
-## Dependencies
-
-Requires [PhantomJS](http://phantomjs.org/) v2 to run.
-
-[PhantomJS build instructions](http://phantomjs.org/build.html)
 
 ## License
 
