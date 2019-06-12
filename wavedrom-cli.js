@@ -18,6 +18,7 @@ var argv = yargs
     .option('input', {describe: 'path to the source', alias: 'i'})
     .option('svg',   {describe: 'path to the generated SVG', alias: 's'})
     .option('png',   {describe: 'path to the generated PNG', alias: 'p'})
+    .version()
     .demandOption(['input'])
     .help()
     .argv;
