@@ -1,6 +1,6 @@
 {
   "name": "wavedrom-cli",
-  "version": "2.1.1",
+  "version": "2.6.3",
   "description": "WaveDrom command-line interface (CLI)",
   "author": "Aliaksei Chapyzhenka",
   "license": "MIT",
