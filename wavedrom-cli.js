@@ -2,7 +2,7 @@
 'use strict';
 
 var fs = require('fs-extra');
-var json5 = require('json5');
+var yaml = require('yaml');
 var yargs = require('yargs');
 var onml = require('onml');
 
@@ -25,8 +25,8 @@ var argv = yargs
 var fileName;
 
 fileName = argv.input;
-fs.readFile(fileName, function (err, body) {
-    var source = json5.parse(body);
+fs.readFile(fileName, {encoding: 'utf8'}, function (err, body) {
+    var source = yaml.parse(body);
     var res = wavedrom.renderAny(0, source, skins);
     var svg = onml.s(res);
     if (argv.svg) {
