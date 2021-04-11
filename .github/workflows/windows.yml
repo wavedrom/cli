@@ -3,7 +3,6 @@ on: [push]
 jobs:
   build:
     runs-on: windows-latest
-    shell: bash
     strategy:
       matrix:
         node-version: [10, 12, 14, 15]
@@ -16,4 +15,4 @@ jobs:
     - name: npm install, build, and test
       run: |
         npm i
-        npm test
+        npm test-win
