@@ -1,6 +1,7 @@
 [![NPM version](https://img.shields.io/npm/v/wavedrom-cli.svg)](https://www.npmjs.org/package/wavedrom-cli)
 [![Linux](https://github.com/wavedrom/cli/actions/workflows/linux.yml/badge.svg)](https://github.com/wavedrom/cli/actions/workflows/linux.yml)
 [![MacOS](https://github.com/wavedrom/cli/actions/workflows/macos.yml/badge.svg)](https://github.com/wavedrom/cli/actions/workflows/macos.yml)
+[![Windows](https://github.com/wavedrom/cli/actions/workflows/windows.yml/badge.svg)](https://github.com/wavedrom/cli/actions/workflows/windows.yml)
 
 # wavedrom-cli
 
