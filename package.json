@@ -9,6 +9,9 @@
     "type": "git",
     "url": "git+https://github.com/wavedrom/cli.git"
   },
+  "files": [
+    "wavedrom-cli.js"
+  ],
   "bugs": {
     "url": "https://github.com/wavedrom/cli/issues"
   },
