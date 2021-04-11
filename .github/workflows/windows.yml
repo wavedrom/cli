@@ -15,4 +15,4 @@ jobs:
     - name: npm install, build, and test
       run: |
         npm i
-        npm test-win
+        npm run test-win

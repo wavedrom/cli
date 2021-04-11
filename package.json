@@ -27,7 +27,7 @@
   },
   "scripts": {
     "test": "for f in test/src/*.js; do ./wavedrom-cli.js -i $f -s test/res/$(basename ${f} .${f##*.}).svg -p test/res/$(basename ${f} .${f##*.}).png; done",
-    "test-win": "for /F %f in ('dir /b test/src/*.js') do node wavedrom-cli.js -i %f -s test/res/%~ni.svg -p test/res/%~ni.png"
+    "test-win": "for /F %f in ('dir /b test\\src\\*.js') do node wavedrom-cli.js -i %f -s test/res/%~ni.svg -p test/res/%~ni.png"
   },
   "dependencies": {
     "fs-extra": "^9.1.0",
