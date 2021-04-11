@@ -1,4 +1,4 @@
-name: Linux Node CI
+name: Linux
 
 on: [push]
 
