@@ -9,16 +9,22 @@ WaveDrom command-line interface
 
 ## Usage
 
+### Install
+
+```sh
+npm i wavedrom-cli -g
+```
+
 ### Export SVG
 
 ```sh
-npx wavedrom-cli -i mywave.json5 -s mywave.svg
+wavedrom-cli -i mywave.json5 -s mywave.svg
 ```
 
 ### Export PNG
 
 ```sh
-npx wavedrom-cli -i mywave.json5 -p mywave.png
+wavedrom-cli -i mywave.json5 -p mywave.png
 ```
 
 ### Export with Inkscape
@@ -26,7 +32,7 @@ npx wavedrom-cli -i mywave.json5 -p mywave.png
 [Inkscape](https://inkscape.org) is awesome SVG editor that can be used to convert SVG to many other formats: PDF, PS, EPS, EMF, WMF, PNG. etc. It can be chained with `wavedrom-cli` to output those formats. Here is an example:
 
 ```sh
-npx wavedrom-cli -i mywave.json5 | inkscape --file - --export-pdf mywave.pdf
+wavedrom-cli -i mywave.json5 | inkscape --file - --export-pdf mywave.pdf
 ```
 
 ### Options
