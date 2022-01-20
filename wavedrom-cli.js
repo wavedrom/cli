@@ -24,7 +24,15 @@ var argv = yargs
 
 var fileName;
 
-fileName = argv.input;
+if (argv.input === "-") {
+    var tmp = require('tmp');
+    var tmpFileName = tmp.tmpNameSync();
+    var dest = fs.createWriteStream(tmpFileName, 'utf8');
+    process.stdin.pipe(dest);
+    fileName = tmpFileName;
+} else {
+    fileName = argv.input;
+}
 fs.readFile(fileName, function (err, body) {
     var source = json5.parse(body);
     var res = wavedrom.renderAny(0, source, skins);
