@@ -1,6 +1,6 @@
 {
   "name": "wavedrom-cli",
-  "version": "2.8.1",
+  "version": "2.9.1",
   "description": "WaveDrom command-line interface (CLI)",
   "author": "Aliaksei Chapyzhenka",
   "license": "MIT",
@@ -33,9 +33,8 @@
     "fs-extra": "^10.0.0",
     "json5": "^2.2.0",
     "onml": "^2.1.0",
-    "svg2img": "^0.9.3",
-    "tmp": "^0.2.1",
-    "wavedrom": "^2.8.3",
-    "yargs": "^17.2.1"
+    "svg2img": "^0.9.4",
+    "wavedrom": "^2.9.1",
+    "yargs": "^17.3.1"
   }
 }
