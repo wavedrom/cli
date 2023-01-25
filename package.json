@@ -30,11 +30,11 @@
     "test-win": "for /F %f in ('dir /b test\\src\\*.js') do node wavedrom-cli.js -i test/src/%f -s test/res/%~nf.svg -p test/res/%~nf.png"
   },
   "dependencies": {
-    "fs-extra": "^10.0.0",
-    "json5": "^2.2.0",
+    "fs-extra": "^11.1.0",
+    "json5": "^2.2.3",
     "onml": "^2.1.0",
-    "svg2img": "^1.0.0-beta.0",
-    "wavedrom": "^2.9.1",
-    "yargs": "^17.3.1"
+    "svg2img": "^1.0.0-beta.2",
+    "wavedrom": "^3.1.1",
+    "yargs": "^17.6.2"
   }
 }
