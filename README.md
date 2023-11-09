@@ -34,7 +34,7 @@ wavedrom-cli -i mywave.json5 -p mywave.png
 [Inkscape](https://inkscape.org) is awesome SVG editor that can be used to convert SVG to many other formats: PDF, PS, EPS, EMF, WMF, PNG. etc. It can be chained with `wavedrom-cli` to output those formats. Here is an example:
 
 ```sh
-wavedrom-cli -i mywave.json5 | inkscape --file - --export-pdf mywave.pdf
+wavedrom-cli -i mywave.json5 | inkscape -p --export-filename=mywave.pdf
 ```
 
 ### Options
