@@ -11,7 +11,7 @@ WaveDrom command-line interface
 
 ### Install
 
-Requires `nodejs v12+`
+Requires `nodejs v14+`
 
 ```sh
 npm i wavedrom-cli -g
